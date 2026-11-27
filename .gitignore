@@ -1,0 +1,31 @@
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+
+# Android build outputs & local config
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.idea/
+android/*.iml
+android/app/*.iml
+
+# Environment & temporary
+.env
+.env.local
+.DS_Store
+*.log
+kg_page.html
+cid_page.html
+maps.html
+chrome_dump.html
+chrome_out.html
+mobile_search.html

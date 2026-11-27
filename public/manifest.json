@@ -1,0 +1,25 @@
+{
+  "name": "Pizza Pizza - Hot & Fresh",
+  "short_name": "Pizza Pizza",
+  "description": "Order Top Quality Pizza & Unbeatable Combos from Pizza Pizza (Hot & Fresh) Dehradun. 100% Pure Veg.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0D0F14",
+  "theme_color": "#FF2A3B",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/images/storefront.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/storefront.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["food", "shopping", "lifestyle"]
+}
