@@ -124,7 +124,13 @@ export const Footer = ({ onOpenApkModal, onOpenPhotoModal }) => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-gray-500 text-[11px]">
-          <p>© {new Date().getFullYear()} PIZZA PIZZA (HOT & FRESH). All Rights Reserved. Pure Veg Pizzeria, Dehradun.</p>
+          <div className="text-center sm:text-left">
+            <p>© {new Date().getFullYear()} PIZZA PIZZA (HOT & FRESH). All Rights Reserved. Pure Veg Pizzeria, Dehradun.</p>
+            <p className="text-gray-400 mt-1 flex items-center justify-center sm:justify-start gap-1">
+              <span>Site is built and managed by</span>
+              <span className="text-cheese-neon font-bold tracking-wide">Stella Merkatus</span>
+            </p>
+          </div>
           
           <div className="flex items-center gap-4">
             <button
