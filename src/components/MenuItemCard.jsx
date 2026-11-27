@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, SlidersHorizontal, Flame, Sparkles, Check } from 'lucide-react';
+import { Plus, SlidersHorizontal, Flame, Sparkles, Check, Ban } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 export const MenuItemCard = ({ item }) => {
@@ -9,12 +9,14 @@ export const MenuItemCard = ({ item }) => {
 
   const isPizza = item.isPizza;
   const isCombo = item.isCombo;
+  const isAvailable = item.isAvailable !== false;
 
   const currentPrice = isPizza
     ? (selectedSize === 'Large' ? item.largePrice : item.regularPrice)
     : item.price;
 
   const handleQuickAdd = () => {
+    if (!isAvailable) return;
     if (isPizza) {
       addToCart(item, { size: selectedSize, crust: 'Thin Crust' });
     } else {
@@ -25,7 +27,9 @@ export const MenuItemCard = ({ item }) => {
   };
 
   return (
-    <div className="glass-card rounded-2xl overflow-hidden border border-white/5 hover:border-white/20 transition-all duration-300 flex flex-col justify-between group hover:shadow-2xl hover:shadow-black/50">
+    <div className={`glass-card rounded-2xl overflow-hidden border transition-all duration-300 flex flex-col justify-between group hover:shadow-2xl hover:shadow-black/50 ${
+      isAvailable ? 'border-white/5 hover:border-white/20' : 'border-red-500/20 opacity-75'
+    }`}>
       
       {/* Top Media & Tags */}
       <div className="relative overflow-hidden bg-[#161922] aspect-[16/10]">
@@ -34,7 +38,7 @@ export const MenuItemCard = ({ item }) => {
             src={item.image}
             alt={item.name}
             loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${!isAvailable ? 'grayscale' : ''}`}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#1C212E] to-[#12151D]">
@@ -53,25 +57,40 @@ export const MenuItemCard = ({ item }) => {
 
         {/* Badges & Tags */}
         <div className="absolute top-3 right-3 flex flex-col items-end gap-1">
-          {item.tag && (
-            <span className="bg-pizza-red text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-md flex items-center gap-1">
-              {item.tag.includes('🔥') && <Flame className="w-2.5 h-2.5" />}
-              {item.tag}
+          {!isAvailable ? (
+            <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-md flex items-center gap-1 animate-pulse">
+              <Ban className="w-3 h-3" />
+              <span>Sold Out</span>
             </span>
-          )}
-          {item.badge && (
-            <span className="bg-cheese-neon text-black text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-md">
-              {item.badge}
-            </span>
+          ) : (
+            <>
+              {item.tag && (
+                <span className="bg-pizza-red text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-md flex items-center gap-1">
+                  {item.tag.includes('🔥') && <Flame className="w-2.5 h-2.5" />}
+                  {item.tag}
+                </span>
+              )}
+              {item.badge && (
+                <span className="bg-cheese-neon text-black text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-md">
+                  {item.badge}
+                </span>
+              )}
+            </>
           )}
         </div>
 
-        {/* Combo notice pill */}
-        {isCombo && (
+        {/* Combo notice pill or Sold Out banner */}
+        {isCombo && isAvailable && (
           <div className="absolute bottom-2 left-3 right-3">
             <span className="text-[10px] bg-black/70 backdrop-blur-md text-cheese-neon px-2 py-0.5 rounded font-bold border border-cheese-500/30">
               Small Size Pizza Combo
             </span>
+          </div>
+        )}
+
+        {!isAvailable && (
+          <div className="absolute inset-x-0 bottom-0 py-1.5 bg-red-600/90 backdrop-blur-sm text-center text-white text-[11px] font-black tracking-wider uppercase">
+            Unavailable Today in Kitchen
           </div>
         )}
       </div>
@@ -80,7 +99,9 @@ export const MenuItemCard = ({ item }) => {
       <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
         <div>
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-display font-extrabold text-base text-white group-hover:text-cheese-neon transition-colors leading-snug">
+            <h3 className={`font-display font-extrabold text-base transition-colors leading-snug ${
+              isAvailable ? 'text-white group-hover:text-cheese-neon' : 'text-gray-400 line-through'
+            }`}>
               {item.name}
             </h3>
           </div>
@@ -91,9 +112,10 @@ export const MenuItemCard = ({ item }) => {
 
         {/* Pizza Size Selector (Regular vs Large) */}
         {isPizza && (
-          <div className="bg-[#12151D] p-1 rounded-xl flex items-center gap-1 border border-white/5">
+          <div className={`bg-[#12151D] p-1 rounded-xl flex items-center gap-1 border border-white/5 ${!isAvailable ? 'opacity-50 pointer-events-none' : ''}`}>
             <button
               type="button"
+              disabled={!isAvailable}
               onClick={() => setSelectedSize('Regular')}
               className={`flex-1 py-1 px-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between ${
                 selectedSize === 'Regular'
@@ -107,6 +129,7 @@ export const MenuItemCard = ({ item }) => {
 
             <button
               type="button"
+              disabled={!isAvailable}
               onClick={() => setSelectedSize('Large')}
               className={`flex-1 py-1 px-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between ${
                 selectedSize === 'Large'
@@ -125,10 +148,10 @@ export const MenuItemCard = ({ item }) => {
           <div>
             <span className="text-[10px] text-gray-400 block font-medium">Price</span>
             <div className="flex items-baseline gap-1">
-              <span className="font-mono font-extrabold text-lg text-white">
+              <span className={`font-mono font-extrabold text-lg ${isAvailable ? 'text-white' : 'text-gray-500 line-through'}`}>
                 ₹{currentPrice}
               </span>
-              {item.cheesePrice && (
+              {item.cheesePrice && isAvailable && (
                 <span className="text-[10px] text-gray-400">+₹20 w/ Cheese</span>
               )}
             </div>
@@ -136,7 +159,7 @@ export const MenuItemCard = ({ item }) => {
 
           <div className="flex items-center gap-1.5">
             {/* Customize Crust & Toppings (if Pizza) */}
-            {isPizza && (
+            {isPizza && isAvailable && (
               <button
                 type="button"
                 onClick={() => setSelectedCustomizeItem({ ...item, defaultSize: selectedSize })}
@@ -148,28 +171,38 @@ export const MenuItemCard = ({ item }) => {
               </button>
             )}
 
-            {/* Quick Add Button */}
-            <button
-              type="button"
-              onClick={handleQuickAdd}
-              className={`px-3.5 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 ${
-                addedAnimation
-                  ? 'bg-fresh-green text-white shadow-lg shadow-fresh-green/30'
-                  : 'bg-gradient-to-r from-pizza-red to-pizza-600 hover:from-pizza-600 hover:to-pizza-red text-white shadow-md shadow-pizza-red/30'
-              }`}
-            >
-              {addedAnimation ? (
-                <>
-                  <Check className="w-3.5 h-3.5" />
-                  <span>Added!</span>
-                </>
-              ) : (
-                <>
-                  <Plus className="w-3.5 h-3.5" />
-                  <span>Add</span>
-                </>
-              )}
-            </button>
+            {/* Quick Add Button or Sold out button */}
+            {isAvailable ? (
+              <button
+                type="button"
+                onClick={handleQuickAdd}
+                className={`px-3.5 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 ${
+                  addedAnimation
+                    ? 'bg-fresh-green text-white shadow-lg shadow-fresh-green/30'
+                    : 'bg-gradient-to-r from-pizza-red to-pizza-600 hover:from-pizza-600 hover:to-pizza-red text-white shadow-md shadow-pizza-red/30'
+                }`}
+              >
+                {addedAnimation ? (
+                  <>
+                    <Check className="w-3.5 h-3.5" />
+                    <span>Added!</span>
+                  </>
+                ) : (
+                  <>
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Add</span>
+                  </>
+                )}
+              </button>
+            ) : (
+              <button
+                type="button"
+                disabled
+                className="px-3 py-2 rounded-xl bg-white/5 text-gray-500 font-bold text-xs cursor-not-allowed border border-white/5 flex items-center gap-1"
+              >
+                <span>Sold Out</span>
+              </button>
+            )}
           </div>
         </div>
 

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { X, Trash2, Plus, Minus, ArrowRight, Tag, Bike, Store, Sparkles, CheckCircle2, QrCode } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, Trash2, Plus, Minus, ArrowRight, Tag, Bike, Store, Sparkles, CheckCircle2, QrCode, UserCheck } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useStore } from '../context/StoreContext';
 import { RESTAURANT_INFO } from '../data/restaurantInfo';
 
 export const CartDrawer = ({ onOrderPlaced }) => {
@@ -29,9 +30,28 @@ export const CartDrawer = ({ onOrderPlaced }) => {
     amountNeededForFreeDelivery
   } = useCart();
 
+  const { currentCustomer, addNewOrder } = useStore();
+
   const [paymentMethod, setPaymentMethod] = useState('whatsapp'); // 'whatsapp', 'cod', 'upi'
   const [formErrors, setFormErrors] = useState({});
   const [showUpiQr, setShowUpiQr] = useState(false);
+  const [marketingOptIn, setMarketingOptIn] = useState(true);
+
+  // Sync with logged in customer if available
+  useEffect(() => {
+    if (currentCustomer) {
+      setCustomerInfo(prev => ({
+        ...prev,
+        name: prev.name || currentCustomer.name || '',
+        phone: prev.phone || currentCustomer.phone || '',
+        email: prev.email || currentCustomer.email || '',
+        address: prev.address || currentCustomer.address || ''
+      }));
+      if (currentCustomer.marketingOptIn !== undefined) {
+        setMarketingOptIn(currentCustomer.marketingOptIn);
+      }
+    }
+  }, [currentCustomer]);
 
   if (!isCartOpen) return null;
 
@@ -101,10 +121,16 @@ Please confirm my order and share the estimated preparation time. Thank you!`;
       deliveryFee,
       finalTotal,
       orderType,
-      customerInfo,
+      customerInfo: {
+        ...customerInfo,
+        marketingOptIn
+      },
       paymentMethod,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
+
+    // Save to KDS & Guest Database
+    addNewOrder(orderSummary);
 
     onOrderPlaced(orderSummary);
     clearCart();
@@ -123,10 +149,16 @@ Please confirm my order and share the estimated preparation time. Thank you!`;
       deliveryFee,
       finalTotal,
       orderType,
-      customerInfo,
+      customerInfo: {
+        ...customerInfo,
+        marketingOptIn
+      },
       paymentMethod: 'UPI Paid',
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
+
+    // Save to KDS & Guest Database
+    addNewOrder(orderSummary);
 
     setShowUpiQr(false);
     onOrderPlaced(orderSummary);
@@ -400,6 +432,16 @@ Please confirm my order and share the estimated preparation time. Thank you!`;
                     {formErrors.phone && <p className="text-[11px] text-red-400 mt-0.5">{formErrors.phone}</p>}
                   </div>
 
+                  <div>
+                    <input
+                      type="email"
+                      placeholder="Email Address (Optional - for order invoice & coupons)"
+                      value={customerInfo.email || ''}
+                      onChange={(e) => setCustomerInfo({ ...customerInfo, email: e.target.value })}
+                      className="w-full bg-[#141722] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-pizza-red"
+                    />
+                  </div>
+
                   {orderType === 'delivery' && (
                     <div>
                       <textarea
@@ -420,6 +462,21 @@ Please confirm my order and share the estimated preparation time. Thank you!`;
                     onChange={(e) => setCustomerInfo({ ...customerInfo, instructions: e.target.value })}
                     className="w-full bg-[#141722] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-pizza-red"
                   />
+
+                  {/* Customer Updates & Promotional Opt-in */}
+                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-start gap-2">
+                    <input
+                      type="checkbox"
+                      id="cart-marketing-opt"
+                      checked={marketingOptIn}
+                      onChange={(e) => setMarketingOptIn(e.target.checked)}
+                      className="mt-0.5 w-3.5 h-3.5 rounded text-pizza-red focus:ring-pizza-red border-white/20 bg-black/40"
+                    />
+                    <label htmlFor="cart-marketing-opt" className="text-[11px] text-gray-300 cursor-pointer leading-tight">
+                      <span className="font-bold text-white">Get Live Order Status & VIP Coupons</span>
+                      <span className="block text-[10px] text-gray-400">Receive WhatsApp notifications on baking progress & exclusive discount codes.</span>
+                    </label>
+                  </div>
                 </div>
               </div>
 

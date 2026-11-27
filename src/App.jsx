@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { CartProvider, useCart } from './context/CartContext';
+import { StoreProvider, useStore } from './context/StoreContext';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { StoryHighlights } from './components/StoryHighlights';
@@ -12,7 +13,10 @@ import { StoreSection } from './components/StoreSection';
 import { ApkModal } from './components/ApkModal';
 import { PhotoModal } from './components/PhotoModal';
 import { Footer } from './components/Footer';
-import { MENU_ITEMS, MENU_CATEGORIES } from './data/menuData';
+import { CustomerAuthModal } from './components/CustomerAuthModal';
+import { AdminLoginModal } from './components/admin/AdminLoginModal';
+import { AdminPortal } from './components/admin/AdminPortal';
+import { MENU_CATEGORIES } from './data/menuData';
 import { Sparkles, Flame, Check, ArrowRight } from 'lucide-react';
 
 const MainContent = () => {
@@ -21,11 +25,13 @@ const MainContent = () => {
   const [activePhoto, setActivePhoto] = useState(null);
   const [isApkModalOpen, setIsApkModalOpen] = useState(false);
   const [placedOrder, setPlacedOrder] = useState(null);
+  
   const { applyCoupon, setIsCartOpen } = useCart();
+  const { menuItems, isAdminLoggedIn, isAdminModalOpen, setIsAdminModalOpen } = useStore();
 
   // Filtered menu items based on category and search query
   const filteredItems = useMemo(() => {
-    let items = MENU_ITEMS;
+    let items = menuItems;
 
     if (activeCategory !== 'all') {
       items = items.filter(item => item.category === activeCategory);
@@ -41,12 +47,12 @@ const MainContent = () => {
     }
 
     return items;
-  }, [activeCategory, searchQuery]);
+  }, [menuItems, activeCategory, searchQuery]);
 
-  // Featured combos from menu_combos.jpg
+  // Featured combos from menu items
   const hotCombos = useMemo(() => {
-    return MENU_ITEMS.filter(i => i.isCombo);
-  }, []);
+    return menuItems.filter(i => i.isCombo);
+  }, [menuItems]);
 
   const openStoreSection = () => {
     const el = document.getElementById('store-info');
@@ -230,15 +236,32 @@ const MainContent = () => {
         photo={activePhoto}
         onClose={() => setActivePhoto(null)}
       />
+
+      {/* Customer Registration & Profile Modal */}
+      <CustomerAuthModal />
+
+      {/* Admin Login Modal */}
+      <AdminLoginModal
+        isOpen={isAdminModalOpen && !isAdminLoggedIn}
+        onClose={() => setIsAdminModalOpen(false)}
+      />
+
+      {/* Fullscreen Admin Dashboard & KDS */}
+      <AdminPortal
+        isOpen={isAdminModalOpen && isAdminLoggedIn}
+        onClose={() => setIsAdminModalOpen(false)}
+      />
     </div>
   );
 };
 
 export const App = () => {
   return (
-    <CartProvider>
-      <MainContent />
-    </CartProvider>
+    <StoreProvider>
+      <CartProvider>
+        <MainContent />
+      </CartProvider>
+    </StoreProvider>
   );
 };
 

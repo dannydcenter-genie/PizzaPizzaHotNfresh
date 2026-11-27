@@ -1,8 +1,11 @@
 import React from 'react';
-import { Phone, MapPin, Heart, ShieldCheck, Download, Star, ExternalLink, ArrowUp } from 'lucide-react';
+import { Phone, MapPin, Heart, ShieldCheck, Download, Star, ExternalLink, ArrowUp, Lock, User } from 'lucide-react';
 import { RESTAURANT_INFO } from '../data/restaurantInfo';
+import { useStore } from '../context/StoreContext';
 
 export const Footer = ({ onOpenApkModal, onOpenPhotoModal }) => {
+  const { setIsAdminModalOpen, setIsCustomerAuthModalOpen } = useStore();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -73,6 +76,24 @@ export const Footer = ({ onOpenApkModal, onOpenPhotoModal }) => {
               </li>
               <li>
                 <a href="#menu" className="hover:text-pizza-red transition-colors">🍫 Warm Choco Lava Cake</a>
+              </li>
+              <li className="pt-2 border-t border-white/5 space-y-1.5">
+                <button
+                  onClick={() => setIsCustomerAuthModalOpen(true)}
+                  className="text-gray-300 hover:text-cheese-neon transition-colors flex items-center gap-1.5"
+                >
+                  <User className="w-3.5 h-3.5 text-cheese-neon" />
+                  <span>My Account / Register for Offers</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => setIsAdminModalOpen(true)}
+                  className="text-gray-300 hover:text-pizza-red transition-colors flex items-center gap-1.5"
+                >
+                  <Lock className="w-3.5 h-3.5 text-pizza-red" />
+                  <span>Store Manager & KDS Login</span>
+                </button>
               </li>
             </ul>
           </div>

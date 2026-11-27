@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { ShoppingBag, Phone, MapPin, Sparkles, Download, Menu, X, ArrowRight } from 'lucide-react';
+import { ShoppingBag, Phone, MapPin, Sparkles, Download, Menu, X, ArrowRight, User, ShieldCheck, Lock } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useStore } from '../context/StoreContext';
 import { RESTAURANT_INFO } from '../data/restaurantInfo';
 
 export const Header = ({ onOpenApkModal, onOpenPhotoModal }) => {
   const { totalItemsCount, setIsCartOpen, subtotal } = useCart();
+  const { currentCustomer, setIsCustomerAuthModalOpen, setIsAdminModalOpen, isAdminLoggedIn } = useStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -75,7 +77,7 @@ export const Header = ({ onOpenApkModal, onOpenPhotoModal }) => {
           </a>
 
           {/* Center Links (Desktop) */}
-          <div className="hidden md:flex items-center space-x-6 text-sm font-semibold text-gray-300">
+          <div className="hidden lg:flex items-center space-x-6 text-sm font-semibold text-gray-300">
             <a href="#menu" className="hover:text-pizza-red transition-colors flex items-center gap-1">
               Menu & Combos
             </a>
@@ -93,6 +95,32 @@ export const Header = ({ onOpenApkModal, onOpenPhotoModal }) => {
           {/* Right Action Buttons */}
           <div className="flex items-center gap-2 sm:gap-3">
             
+            {/* Customer Profile / Sign In */}
+            <button
+              onClick={() => setIsCustomerAuthModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-200 text-xs font-bold border border-white/10 transition-all hover:border-pizza-red/40"
+              title="Customer Login / Register for updates & rewards"
+            >
+              <User className="w-3.5 h-3.5 text-cheese-neon" />
+              <span className="max-w-[90px] truncate hidden sm:inline">
+                {currentCustomer ? currentCustomer.name.split(' ')[0] : 'Sign In'}
+              </span>
+            </button>
+
+            {/* Admin Portal Button */}
+            <button
+              onClick={() => setIsAdminModalOpen(true)}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold border transition-all ${
+                isAdminLoggedIn
+                  ? 'bg-cheese-500/15 text-cheese-neon border-cheese-500/40 hover:bg-cheese-500/25'
+                  : 'bg-white/5 hover:bg-white/10 text-gray-300 border-white/10 hover:border-white/20'
+              }`}
+              title="Open Admin Portal & Kitchen Display System (KDS)"
+            >
+              <Lock className="w-3.5 h-3.5" />
+              <span className="hidden md:inline">Admin</span>
+            </button>
+
             {/* APK / Install App Button */}
             <button
               onClick={onOpenApkModal}
@@ -100,19 +128,8 @@ export const Header = ({ onOpenApkModal, onOpenPhotoModal }) => {
               title="Download Android APK / Install App"
             >
               <Download className="w-3.5 h-3.5 text-cheese-neon" />
-              <span>Get APK App</span>
+              <span>APK</span>
             </button>
-
-            {/* Direct WhatsApp Call/Chat */}
-            <a
-              href={`https://wa.me/${RESTAURANT_INFO.whatsappNumber}?text=${encodeURIComponent('Hi Pizza Pizza! I would like to check your menu and place an order.')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden lg:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-fresh-green/10 hover:bg-fresh-green/20 text-fresh-green text-xs font-bold border border-fresh-green/30 transition-all"
-            >
-              <span className="text-sm">💬</span>
-              <span>WhatsApp</span>
-            </a>
 
             {/* Cart Trigger Button */}
             <button
@@ -137,7 +154,7 @@ export const Header = ({ onOpenApkModal, onOpenPhotoModal }) => {
             {/* Mobile Hamburger Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-xl bg-white/5 text-gray-300 hover:text-white border border-white/10"
+              className="lg:hidden p-2 rounded-xl bg-white/5 text-gray-300 hover:text-white border border-white/10"
               aria-label="Toggle Menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -147,7 +164,29 @@ export const Header = ({ onOpenApkModal, onOpenPhotoModal }) => {
 
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-3 pt-3 border-t border-white/10 flex flex-col gap-2 pb-2 text-sm font-semibold text-gray-200">
+          <div className="lg:hidden mt-3 pt-3 border-t border-white/10 flex flex-col gap-2 pb-2 text-sm font-semibold text-gray-200">
+            <button
+              onClick={() => { setMobileMenuOpen(false); setIsCustomerAuthModalOpen(true); }}
+              className="px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-between text-left text-cheese-neon font-bold"
+            >
+              <span className="flex items-center gap-2">
+                <User className="w-4 h-4" />
+                <span>{currentCustomer ? `Logged in: ${currentCustomer.name}` : 'Customer Sign In / Register'}</span>
+              </span>
+              <ArrowRight className="w-4 h-4 text-gray-400" />
+            </button>
+
+            <button
+              onClick={() => { setMobileMenuOpen(false); setIsAdminModalOpen(true); }}
+              className="px-3 py-2 rounded-lg bg-pizza-red/10 border border-pizza-red/30 flex items-center justify-between text-left text-white font-bold"
+            >
+              <span className="flex items-center gap-2">
+                <Lock className="w-4 h-4 text-pizza-red" />
+                <span>Admin Portal & KDS Kitchen Display</span>
+              </span>
+              <ArrowRight className="w-4 h-4 text-gray-400" />
+            </button>
+
             <a 
               href="#menu" 
               onClick={() => setMobileMenuOpen(false)}
@@ -156,6 +195,7 @@ export const Header = ({ onOpenApkModal, onOpenPhotoModal }) => {
               <span>🍕 Food Menu & Combos</span>
               <ArrowRight className="w-4 h-4 text-gray-400" />
             </a>
+
             <a 
               href="#specials" 
               onClick={() => setMobileMenuOpen(false)}
@@ -164,6 +204,7 @@ export const Header = ({ onOpenApkModal, onOpenPhotoModal }) => {
               <span>🔥 Super Combos & Deals</span>
               <ArrowRight className="w-4 h-4 text-gray-400" />
             </a>
+
             <a 
               href="#store-info" 
               onClick={() => setMobileMenuOpen(false)}
@@ -172,6 +213,7 @@ export const Header = ({ onOpenApkModal, onOpenPhotoModal }) => {
               <span>📍 Address & Store Photos</span>
               <ArrowRight className="w-4 h-4 text-gray-400" />
             </a>
+
             <button 
               onClick={() => { setMobileMenuOpen(false); onOpenApkModal(); }}
               className="px-3 py-2 rounded-lg bg-cheese-500/10 text-cheese-neon border border-cheese-500/20 flex items-center justify-between text-left font-bold"
