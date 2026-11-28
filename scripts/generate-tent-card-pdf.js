@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 async function generateTentCard() {
-  console.log('Generating Table Tent Card PDF...');
+  console.log('Generating Table Tent Card PDF with proper 180-degree inverted fold...');
 
   // Standard A4 Portrait (210mm x 297mm)
   const doc = new jsPDF({
@@ -20,6 +20,7 @@ async function generateTentCard() {
   const pageWidth = 210;
   const pageHeight = 297;
   const halfHeight = pageHeight / 2; // 148.5mm per side
+  const k = doc.internal.scaleFactor;
 
   // Customer App Download URL
   const appDownloadUrl = 'https://github.com/dannydcenter-genie/PizzaPizzaHotNfresh/releases/download/v1.0.0/PizzaPizza-Customer.apk';
@@ -36,8 +37,7 @@ async function generateTentCard() {
   });
 
   // Helper to render one side of the tent card
-  // yOffset is starting Y position (0 for top side, halfHeight for bottom side)
-  function renderTentSide(yOffset, isRotated = false) {
+  function renderTentSide(yOffset) {
     const cardTop = yOffset + 5;
     const cardBottom = yOffset + halfHeight - 5;
     const cardLeft = 8;
@@ -131,41 +131,55 @@ async function generateTentCard() {
     doc.text('Site is built and managed by Stella Merkatus', centerX, cardBottom - 2, { align: 'center' });
   }
 
-  // Render Top Panel
+  // 1. TOP PANEL: Rotated 180 degrees so when folded along the center ridge, both sides stand upright!
+  doc.saveGraphicsState();
+  // Center of top half is cx = 105mm, cy_pdf = (148.5 + 297)/2 = 222.75mm
+  // In PDF native space, 180 deg around (cx, cy) is:
+  // x' = -x + 2*105*k = -x + 210*k
+  // y' = -y + 2*222.75*k = -y + 445.5*k
+  doc.setCurrentTransformationMatrix(new doc.Matrix(-1, 0, 0, -1, 210 * k, (297 + 148.5) * k));
   renderTentSide(0);
+  doc.restoreGraphicsState();
 
-  // Render Fold Line along the middle
-  doc.setDrawColor(180, 180, 180);
+  // 2. CENTER FOLD LINE (Dashed)
+  doc.setDrawColor(150, 150, 150);
   doc.setLineWidth(0.4);
   doc.setLineDashPattern([3, 3], 0);
   doc.line(8, halfHeight, pageWidth - 8, halfHeight);
 
-  // Center fold indicator text
-  doc.setFontSize(7);
-  doc.setTextColor(120, 120, 120);
-  doc.text('--- FOLD HERE ALONG DASHED LINE TO STAND ON TABLE ---', pageWidth / 2, halfHeight - 1.5, { align: 'center' });
-  doc.text('--- FOLD HERE ALONG DASHED LINE TO STAND ON TABLE ---', pageWidth / 2, halfHeight + 3.5, { align: 'center' });
+  // Directional fold guides on both sides of the center line
+  doc.setFontSize(6.5);
+  doc.setTextColor(140, 140, 140);
+  // Bottom facing fold guide
+  doc.text('--- FOLD HERE (RIDGE OF TENT) / BOTH SIDES STAND UPRIGHT ---', pageWidth / 2, halfHeight + 3.2, { align: 'center' });
+  // Top facing fold guide (rotated 180 degrees so it reads upright when viewing top half)
+  doc.text('--- FOLD HERE (RIDGE OF TENT) / BOTH SIDES STAND UPRIGHT ---', pageWidth / 2, halfHeight - 1.5, { align: 'center', angle: 180 });
 
-  // Render Bottom Panel (faces other side of table)
+  // 3. BOTTOM PANEL: Standard Upright (0 degrees)
   renderTentSide(halfHeight);
 
   // Output directories
   const publicDownloads = path.join(__dirname, '..', 'public', 'downloads');
   const releaseApks = path.join(__dirname, '..', 'release-apks');
+  const distDownloads = path.join(__dirname, '..', 'dist', 'downloads');
 
   if (!fs.existsSync(publicDownloads)) fs.mkdirSync(publicDownloads, { recursive: true });
   if (!fs.existsSync(releaseApks)) fs.mkdirSync(releaseApks, { recursive: true });
+  if (!fs.existsSync(distDownloads)) fs.mkdirSync(distDownloads, { recursive: true });
 
   const pdfOutputPublic = path.join(publicDownloads, 'PizzaPizza-CustomerApp-TentCard.pdf');
   const pdfOutputRelease = path.join(releaseApks, 'PizzaPizza-CustomerApp-TentCard.pdf');
+  const pdfOutputDist = path.join(distDownloads, 'PizzaPizza-CustomerApp-TentCard.pdf');
 
   const pdfBytes = doc.output('arraybuffer');
   fs.writeFileSync(pdfOutputPublic, Buffer.from(pdfBytes));
   fs.writeFileSync(pdfOutputRelease, Buffer.from(pdfBytes));
+  fs.writeFileSync(pdfOutputDist, Buffer.from(pdfBytes));
 
-  console.log('Successfully generated Table Tent Card PDF:');
+  console.log('Successfully generated Table Tent Card PDF with 180-degree inverted top panel:');
   console.log(' ->', pdfOutputPublic);
   console.log(' ->', pdfOutputRelease);
+  console.log(' ->', pdfOutputDist);
 }
 
 generateTentCard().catch(err => {
