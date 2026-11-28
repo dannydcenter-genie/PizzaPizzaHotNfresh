@@ -113,7 +113,7 @@ export const ApkModal = ({ isOpen, onClose }) => {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-            <div className="p-3 rounded-xl bg-black/50 border border-white/10 flex flex-col justify-between">
+            <div className="p-3.5 rounded-xl bg-black/50 border border-white/10 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-1.5 text-xs font-black text-white mb-1">
                   <span>🍕</span> Customer App APK
@@ -122,16 +122,23 @@ export const ApkModal = ({ isOpen, onClose }) => {
                   Full online ordering, live tracker & loyalty deals.
                 </p>
                 <div className="mt-2 text-[10px] text-gray-400 font-mono">
-                  Package: com.pizzapizza.customer
+                  Package: com.pizzapizza.customer • v1.0
                 </div>
               </div>
-              <div className="mt-3 text-[11px] font-bold text-cheese-neon bg-cheese-500/10 px-2.5 py-1.5 rounded-lg border border-cheese-500/20 flex items-center justify-between">
-                <span>PizzaPizza-Customer.apk</span>
-                <span className="text-gray-400 text-[10px]">~4.5 MB</span>
-              </div>
+              <a
+                href="/downloads/PizzaPizza-Customer.apk"
+                download="PizzaPizza-Customer.apk"
+                className="mt-3 py-2 px-3 rounded-lg bg-cheese-500/20 hover:bg-cheese-500/30 text-cheese-neon border border-cheese-500/40 text-xs font-bold flex items-center justify-between transition-colors"
+              >
+                <span className="flex items-center gap-1.5">
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download APK</span>
+                </span>
+                <span className="text-gray-400 text-[10px]">~3.6 MB</span>
+              </a>
             </div>
 
-            <div className="p-3 rounded-xl bg-black/50 border border-pizza-red/30 flex flex-col justify-between">
+            <div className="p-3.5 rounded-xl bg-black/50 border border-pizza-red/30 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-1.5 text-xs font-black text-white mb-1">
                   <span>👨‍🍳</span> Admin & KDS APK
@@ -140,14 +147,26 @@ export const ApkModal = ({ isOpen, onClose }) => {
                   Boots directly into Kitchen Display & Menu Control.
                 </p>
                 <div className="mt-2 text-[10px] text-gray-400 font-mono">
-                  Package: com.pizzapizza.admin
+                  Package: com.pizzapizza.admin • v1.0
                 </div>
               </div>
-              <div className="mt-3 text-[11px] font-bold text-pizza-red bg-pizza-red/10 px-2.5 py-1.5 rounded-lg border border-pizza-red/20 flex items-center justify-between">
-                <span>PizzaPizza-KDS-Admin.apk</span>
-                <span className="text-gray-400 text-[10px]">~4.5 MB</span>
-              </div>
+              <a
+                href="/downloads/PizzaPizza-KDS-Admin.apk"
+                download="PizzaPizza-KDS-Admin.apk"
+                className="mt-3 py-2 px-3 rounded-lg bg-pizza-red/20 hover:bg-pizza-red/30 text-pizza-red border border-pizza-red/40 text-xs font-bold flex items-center justify-between transition-colors"
+              >
+                <span className="flex items-center gap-1.5">
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download APK</span>
+                </span>
+                <span className="text-gray-400 text-[10px]">~3.6 MB</span>
+              </a>
             </div>
+          </div>
+
+          <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[11px] text-amber-200/90 leading-relaxed">
+            <strong className="text-amber-300 block mb-0.5">💡 Installation Note:</strong>
+            After downloading, open the APK from your phone's native <strong>Files</strong> or <strong>Downloads</strong> app (not inside chat previews) and allow "Install unknown apps" when prompted.
           </div>
 
           <div className="bg-black/60 p-3 rounded-xl border border-white/10 font-mono text-[11px] text-gray-300 space-y-1">

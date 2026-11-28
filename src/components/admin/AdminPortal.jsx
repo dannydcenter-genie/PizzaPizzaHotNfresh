@@ -4,7 +4,8 @@ import {
   ToggleLeft, ToggleRight, Edit3, Trash2, Plus, Search,
   Volume2, VolumeX, CheckCircle2, Clock, AlertCircle,
   Phone, MapPin, Download, RefreshCw, Sparkles, Filter,
-  MessageCircle, Printer, ArrowRight, ShieldCheck, Flame, ExternalLink
+  MessageCircle, Printer, ArrowRight, ShieldCheck, Flame, ExternalLink,
+  Smartphone, Copy, Check, HelpCircle
 } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { MENU_CATEGORIES } from '../../data/menuData';
@@ -40,6 +41,15 @@ export const AdminPortal = ({ isOpen, onClose }) => {
 
   // Orders Filter State
   const [orderStatusFilter, setOrderStatusFilter] = useState('all');
+
+  // APK Copied link state
+  const [copiedApk, setCopiedApk] = useState('');
+  const copyApkLink = (url, name) => {
+    const fullUrl = `${window.location.origin}${url}`;
+    navigator.clipboard.writeText(fullUrl);
+    setCopiedApk(name);
+    setTimeout(() => setCopiedApk(''), 2500);
+  };
 
   // New Item Form State
   const [newItemData, setNewItemData] = useState({
@@ -219,6 +229,21 @@ export const AdminPortal = ({ isOpen, onClose }) => {
             <History className="w-4 h-4" />
             <span>Orders History</span>
           </button>
+
+          <button
+            onClick={() => setActiveTab('apks')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+              activeTab === 'apks'
+                ? 'bg-pizza-red text-white shadow-md shadow-pizza-red/30'
+                : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            <Smartphone className="w-4 h-4 text-cheese-neon" />
+            <span>Download APKs</span>
+            <span className="bg-cheese-500/20 text-cheese-neon border border-cheese-500/30 text-[10px] font-black px-1.5 py-0.2 rounded-md">
+              Ready
+            </span>
+          </button>
         </div>
 
         {/* Right actions */}
@@ -302,6 +327,16 @@ export const AdminPortal = ({ isOpen, onClose }) => {
         >
           <History className="w-3.5 h-3.5" />
           <span>History</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('apks')}
+          className={`px-3 py-2 rounded-xl font-bold whitespace-nowrap flex items-center gap-1.5 ${
+            activeTab === 'apks' ? 'bg-pizza-red text-white' : 'text-gray-400'
+          }`}
+        >
+          <Smartphone className="w-3.5 h-3.5 text-cheese-neon" />
+          <span>APKs</span>
         </button>
       </div>
 
@@ -891,6 +926,259 @@ export const AdminPortal = ({ isOpen, onClose }) => {
               </div>
             </div>
 
+          </div>
+        )}
+
+        {/* ============================================================== */}
+        {/* TAB 5: ANDROID APK DISTRIBUTION & DOWNLOAD HUB                 */}
+        {/* ============================================================== */}
+        {activeTab === 'apks' && (
+          <div className="space-y-6 max-w-7xl mx-auto animate-fade-in">
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h3 className="font-display font-black text-xl sm:text-2xl text-white flex items-center gap-2">
+                  <Smartphone className="w-6 h-6 text-cheese-neon" />
+                  <span>Android APK Distribution & Download Hub</span>
+                </h3>
+                <p className="text-xs text-gray-400">
+                  Pre-compiled, release-signed standalone Android APKs ready for instant download, kitchen tablets, or customer sharing.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 text-xs">
+                <span className="px-3 py-1.5 rounded-xl bg-fresh-green/10 text-fresh-green border border-fresh-green/30 font-bold flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>Release Signed (v1 + v2)</span>
+                </span>
+                <span className="px-3 py-1.5 rounded-xl bg-white/5 text-gray-300 border border-white/10 font-mono">
+                  minSdk 22 • Android 5.1 - 15
+                </span>
+              </div>
+            </div>
+
+            {/* Troubleshooting Parse Error Alert */}
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-yellow-500/5 to-transparent border border-amber-500/30 flex items-start gap-3">
+              <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 shrink-0 mt-0.5">
+                <HelpCircle className="w-5 h-5" />
+              </div>
+              <div className="space-y-1 text-xs">
+                <h4 className="font-black text-white text-sm">
+                  Got "There was a problem parsing the package"? Here is how to install smoothly:
+                </h4>
+                <p className="text-gray-300 leading-relaxed">
+                  This happens if the file was opened before the 3.6 MB download finished, or opened inside WhatsApp's built-in chat viewer instead of the Android Package Installer.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 pt-1 text-[11px] text-gray-300">
+                  <div className="p-2.5 rounded-xl bg-black/40 border border-white/10">
+                    <strong className="text-cheese-neon block mb-0.5">1. Complete Download</strong>
+                    Wait until the notification says "Download complete" (exact size ~3.6 MB).
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-black/40 border border-white/10">
+                    <strong className="text-cheese-neon block mb-0.5">2. Open from "Files" App</strong>
+                    Open your device's native <strong>Files</strong> or <strong>Downloads</strong> app, then tap the `.apk`.
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-black/40 border border-white/10">
+                    <strong className="text-cheese-neon block mb-0.5">3. Allow Unknown Apps</strong>
+                    When prompted, tap <em>Settings &gt; Allow from this source</em>, then tap <strong>Install</strong>.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Two APK Cards */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              
+              {/* CARD 1: CUSTOMER ORDERING APP */}
+              <div className="glass-card p-6 rounded-3xl border border-cheese-500/30 bg-gradient-to-b from-[#161a29] to-[#0f121c] flex flex-col justify-between space-y-5">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-cheese-neon bg-cheese-500/20 px-2.5 py-1 rounded-lg border border-cheese-500/30">
+                      CUSTOMER APP
+                    </span>
+                    <span className="text-xs text-gray-400 font-mono">Size: ~3.6 MB</span>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pizza-red to-cheese-500 p-0.5 shrink-0 flex items-center justify-center shadow-lg shadow-pizza-red/20">
+                      <div className="w-full h-full bg-[#11141C] rounded-[14px] flex items-center justify-center text-3xl">
+                        🍕
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="font-display font-black text-xl text-white">
+                        Pizza Pizza (Customer App)
+                      </h4>
+                      <p className="text-xs text-gray-400 font-mono">
+                        com.pizzapizza.customer • Version 1.0 (Release)
+                      </p>
+                      <p className="text-xs text-gray-300 mt-2 leading-relaxed">
+                        Full online ordering experience with dark Gen-Z styling, pizza customizer, live 4-stage order tracker, 1-tap WhatsApp checkout, and VIP deals.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-3 rounded-2xl bg-black/50 border border-white/10 space-y-1.5 text-xs text-gray-300">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Direct File Path:</span>
+                      <code className="text-cheese-neon font-mono text-[11px]">/downloads/PizzaPizza-Customer.apk</code>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Signature:</span>
+                      <span className="text-fresh-green font-bold">APK Signature Scheme v1 + v2</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Target Devices:</span>
+                      <span className="text-white">Android 5.1 up to Android 15</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2 pt-2">
+                  {/* Direct Download Button */}
+                  <a
+                    href="/downloads/PizzaPizza-Customer.apk"
+                    download="PizzaPizza-Customer.apk"
+                    className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-pizza-red to-cheese-500 hover:from-cheese-500 hover:to-pizza-red text-black font-display font-black text-sm shadow-xl shadow-pizza-red/30 transition-all flex items-center justify-center gap-2 group active:scale-98"
+                  >
+                    <Download className="w-4 h-4 stroke-[3] group-hover:translate-y-0.5 transition-transform" />
+                    <span>Download Customer APK (~3.6 MB)</span>
+                  </a>
+
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    {/* Copy Link Button */}
+                    <button
+                      onClick={() => copyApkLink('/downloads/PizzaPizza-Customer.apk', 'customer')}
+                      className="py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 flex items-center justify-center gap-2 transition-colors font-bold"
+                    >
+                      {copiedApk === 'customer' ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-fresh-green stroke-[3]" />
+                          <span className="text-fresh-green">Link Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>Copy Link</span>
+                        </>
+                      )}
+                    </button>
+
+                    {/* WhatsApp Share Button */}
+                    <a
+                      href={`https://wa.me/?text=${encodeURIComponent(`🍕 Download the official Pizza Pizza (Hot & Fresh) App for direct ordering, hot deals, and live order tracking! Download APK here: ${window.location.origin}/downloads/PizzaPizza-Customer.apk`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2.5 px-3 rounded-xl bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#25D366] border border-[#25D366]/30 flex items-center justify-center gap-1.5 transition-colors font-bold"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5" />
+                      <span>Share on WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* CARD 2: KITCHEN DISPLAY SYSTEM & ADMIN APP */}
+              <div className="glass-card p-6 rounded-3xl border border-pizza-red/40 bg-gradient-to-b from-[#1a141e] to-[#0f121c] flex flex-col justify-between space-y-5">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-pizza-red bg-pizza-red/20 px-2.5 py-1 rounded-lg border border-pizza-red/30">
+                      ADMIN & KITCHEN KDS APP
+                    </span>
+                    <span className="text-xs text-gray-400 font-mono">Size: ~3.6 MB</span>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pizza-red to-orange-500 p-0.5 shrink-0 flex items-center justify-center shadow-lg shadow-pizza-red/20">
+                      <div className="w-full h-full bg-[#11141C] rounded-[14px] flex items-center justify-center text-3xl">
+                        👨‍🍳
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="font-display font-black text-xl text-white">
+                        Pizza Pizza KDS Admin
+                      </h4>
+                      <p className="text-xs text-gray-400 font-mono">
+                        com.pizzapizza.admin • Version 1.0 (Release)
+                      </p>
+                      <p className="text-xs text-gray-300 mt-2 leading-relaxed">
+                        Dedicated kitchen tablet app. Boots directly into the Kitchen Display System (KDS), audio chime alerts for incoming orders, live menu availability ON/OFF toggle, and guest database.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-3 rounded-2xl bg-black/50 border border-white/10 space-y-1.5 text-xs text-gray-300">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Direct File Path:</span>
+                      <code className="text-pizza-red font-mono text-[11px]">/downloads/PizzaPizza-KDS-Admin.apk</code>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Signature:</span>
+                      <span className="text-fresh-green font-bold">APK Signature Scheme v1 + v2</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Target Devices:</span>
+                      <span className="text-white">Kitchen Tablets & Manager Phones</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2 pt-2">
+                  {/* Direct Download Button */}
+                  <a
+                    href="/downloads/PizzaPizza-KDS-Admin.apk"
+                    download="PizzaPizza-KDS-Admin.apk"
+                    className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-orange-500 to-pizza-red hover:from-pizza-red hover:to-orange-500 text-white font-display font-black text-sm shadow-xl shadow-pizza-red/30 transition-all flex items-center justify-center gap-2 group active:scale-98"
+                  >
+                    <Download className="w-4 h-4 stroke-[3] group-hover:translate-y-0.5 transition-transform" />
+                    <span>Download Admin KDS APK (~3.6 MB)</span>
+                  </a>
+
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    {/* Copy Link Button */}
+                    <button
+                      onClick={() => copyApkLink('/downloads/PizzaPizza-KDS-Admin.apk', 'admin')}
+                      className="py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 flex items-center justify-center gap-2 transition-colors font-bold"
+                    >
+                      {copiedApk === 'admin' ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-fresh-green stroke-[3]" />
+                          <span className="text-fresh-green">Link Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>Copy Link</span>
+                        </>
+                      )}
+                    </button>
+
+                    {/* WhatsApp Share Button */}
+                    <a
+                      href={`https://wa.me/?text=${encodeURIComponent(`👨‍🍳 Pizza Pizza Kitchen Display System (KDS) & Admin APK download link for kitchen tablet: ${window.location.origin}/downloads/PizzaPizza-KDS-Admin.apk`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2.5 px-3 rounded-xl bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#25D366] border border-[#25D366]/30 flex items-center justify-center gap-1.5 transition-colors font-bold"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5" />
+                      <span>Send to Kitchen Staff</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Quick Setup for Kitchen Tablets */}
+            <div className="glass-card p-5 rounded-2xl border border-white/10 bg-[#12151F] space-y-3">
+              <h4 className="font-display font-black text-sm text-white flex items-center gap-2">
+                <ChefHat className="w-4 h-4 text-cheese-neon" />
+                <span>Recommended Kitchen Tablet Setup</span>
+              </h4>
+              <p className="text-xs text-gray-300 leading-relaxed">
+                For optimal kitchen performance, install <strong>PizzaPizza-KDS-Admin.apk</strong> on an inexpensive Android tablet mounted near the oven or pizza preparation counter. Keep device screen timeout set to <em>"Never"</em> or <em>"Stay awake while charging"</em> (in Android Developer Options) so orders chime and remain visible continuously during rush hours.
+              </p>
+            </div>
           </div>
         )}
 
