@@ -16,6 +16,22 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    flavorDimensions "mode"
+    productFlavors {
+        customer {
+            dimension "mode"
+            applicationId "com.pizzapizza.customer"
+            resValue "string", "app_name", "Pizza Pizza"
+            resValue "string", "title_activity_main", "Pizza Pizza"
+        }
+        admin {
+            dimension "mode"
+            applicationId "com.pizzapizza.admin"
+            resValue "string", "app_name", "Pizza Pizza KDS Admin"
+            resValue "string", "title_activity_main", "Pizza Pizza KDS Admin"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false

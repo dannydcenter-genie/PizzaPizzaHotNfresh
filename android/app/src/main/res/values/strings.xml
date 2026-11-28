@@ -1,7 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Pizza Pizza</string>
-    <string name="title_activity_main">Pizza Pizza</string>
     <string name="package_name">com.pizzapizza.hotandfresh</string>
     <string name="custom_url_scheme">com.pizzapizza.hotandfresh</string>
 </resources>

@@ -417,6 +417,7 @@ export const StoreProvider = ({ children }) => {
         setIsCustomerAuthModalOpen,
         // Admin
         isAdminLoggedIn,
+        setIsAdminLoggedIn,
         adminLogin,
         adminLogout,
         isAdminModalOpen,

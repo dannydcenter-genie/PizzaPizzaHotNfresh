@@ -94,72 +94,73 @@ export const ApkModal = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        {/* Option 2: Capacitor Native Android APK Build */}
-        <div className="glass-card p-5 rounded-2xl border border-white/10 space-y-3">
+        {/* Option 2: Pre-built Native Android APKs (Customer & Admin) */}
+        <div className="glass-card p-5 rounded-2xl border border-white/10 space-y-4 bg-white/5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-black uppercase tracking-wider text-pizza-red bg-pizza-red/20 px-2 py-0.5 rounded">
-              OPTION 2 • NATIVE ANDROID APK BUILD
+            <span className="text-xs font-black uppercase tracking-wider text-cheese-neon bg-cheese-500/20 px-2 py-0.5 rounded">
+              OPTION 2 • NATIVE ANDROID APKs READY
             </span>
-            <span className="text-xs text-gray-400">Capacitor 7.0 Configured</span>
+            <span className="text-xs text-fresh-green font-bold">2 Flavors Built</span>
           </div>
 
           <h4 className="font-display font-black text-base text-white flex items-center gap-2">
-            <Terminal className="w-4 h-4 text-cheese-neon" />
-            <span>Build True .APK File via Android Studio / CLI</span>
+            <Smartphone className="w-4 h-4 text-cheese-neon" />
+            <span>Download Standalone Android APKs</span>
           </h4>
 
           <p className="text-xs text-gray-300 leading-relaxed">
-            This project is pre-configured with <code className="text-cheese-neon font-mono">capacitor.config.json</code> and <code className="text-cheese-neon font-mono">@capacitor/android</code>. You can generate a signed standalone <code className="text-white font-mono">.apk</code> ready for Android phone sideloading or Google Play Store.
+            Pre-compiled standalone Android APKs generated directly from the repository under <code className="text-cheese-neon font-mono bg-black/40 px-1.5 py-0.5 rounded">release-apks/</code>:
           </p>
 
-          {/* Quick Commands */}
-          <div className="space-y-2 text-xs">
-            <p className="text-gray-400 text-[11px] font-bold uppercase">To generate the Android APK:</p>
-            
-            <div className="bg-black/60 p-3 rounded-xl border border-white/10 font-mono text-[11px] space-y-1.5 text-gray-300">
-              <div className="flex items-center justify-between">
-                <span>1. npm run build</span>
-                <button
-                  onClick={() => copyToClipboard('npm run build', 'build')}
-                  className="text-gray-400 hover:text-white"
-                >
-                  {copiedCmd === 'build' ? <Check className="w-3.5 h-3.5 text-fresh-green" /> : <Copy className="w-3.5 h-3.5" />}
-                </button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <div className="p-3 rounded-xl bg-black/50 border border-white/10 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-1.5 text-xs font-black text-white mb-1">
+                  <span>🍕</span> Customer App APK
+                </div>
+                <p className="text-[11px] text-gray-400">
+                  Full online ordering, live tracker & loyalty deals.
+                </p>
+                <div className="mt-2 text-[10px] text-gray-400 font-mono">
+                  Package: com.pizzapizza.customer
+                </div>
               </div>
-
-              <div className="flex items-center justify-between">
-                <span>2. npx cap add android</span>
-                <button
-                  onClick={() => copyToClipboard('npx cap add android', 'add')}
-                  className="text-gray-400 hover:text-white"
-                >
-                  {copiedCmd === 'add' ? <Check className="w-3.5 h-3.5 text-fresh-green" /> : <Copy className="w-3.5 h-3.5" />}
-                </button>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span>3. npx cap sync</span>
-                <button
-                  onClick={() => copyToClipboard('npx cap sync', 'sync')}
-                  className="text-gray-400 hover:text-white"
-                >
-                  {copiedCmd === 'sync' ? <Check className="w-3.5 h-3.5 text-fresh-green" /> : <Copy className="w-3.5 h-3.5" />}
-                </button>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span>4. npx cap open android</span>
-                <button
-                  onClick={() => copyToClipboard('npx cap open android', 'open')}
-                  className="text-gray-400 hover:text-white"
-                >
-                  {copiedCmd === 'open' ? <Check className="w-3.5 h-3.5 text-fresh-green" /> : <Copy className="w-3.5 h-3.5" />}
-                </button>
+              <div className="mt-3 text-[11px] font-bold text-cheese-neon bg-cheese-500/10 px-2.5 py-1.5 rounded-lg border border-cheese-500/20 flex items-center justify-between">
+                <span>PizzaPizza-Customer.apk</span>
+                <span className="text-gray-400 text-[10px]">~4.5 MB</span>
               </div>
             </div>
-            <p className="text-[11px] text-gray-400">
-              In Android Studio, click <strong className="text-white">Build &gt; Build Bundle(s) / APK(s) &gt; Build APK(s)</strong> to get your installable <strong className="text-cheese-neon">app-debug.apk</strong> file!
-            </p>
+
+            <div className="p-3 rounded-xl bg-black/50 border border-pizza-red/30 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-1.5 text-xs font-black text-white mb-1">
+                  <span>👨‍🍳</span> Admin & KDS APK
+                </div>
+                <p className="text-[11px] text-gray-400">
+                  Boots directly into Kitchen Display & Menu Control.
+                </p>
+                <div className="mt-2 text-[10px] text-gray-400 font-mono">
+                  Package: com.pizzapizza.admin
+                </div>
+              </div>
+              <div className="mt-3 text-[11px] font-bold text-pizza-red bg-pizza-red/10 px-2.5 py-1.5 rounded-lg border border-pizza-red/20 flex items-center justify-between">
+                <span>PizzaPizza-KDS-Admin.apk</span>
+                <span className="text-gray-400 text-[10px]">~4.5 MB</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-black/60 p-3 rounded-xl border border-white/10 font-mono text-[11px] text-gray-300 space-y-1">
+            <p className="text-gray-400 text-[10px] font-bold uppercase tracking-wider">CLI Rebuild Command:</p>
+            <div className="flex items-center justify-between">
+              <span>cd android && .\gradlew assembleDebug</span>
+              <button
+                onClick={() => copyToClipboard('cd android && .\\gradlew assembleDebug', 'gradlew')}
+                className="text-gray-400 hover:text-white"
+              >
+                {copiedCmd === 'gradlew' ? <Check className="w-3.5 h-3.5 text-fresh-green" /> : <Copy className="w-3.5 h-3.5" />}
+              </button>
+            </div>
           </div>
         </div>
 

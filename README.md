@@ -54,36 +54,47 @@
 
 ---
 
-## 📱 Mobile App (PWA) & Native Android APK
+## 📱 Mobile App (PWA) & Native Android APKs
 
-### Option A: Install Progressive Web App (Instant)
-1. Open the website on Chrome (Android) or Safari (iOS).
-2. Tap the **"Get APK App"** button in the header or tap browser menu (⋮) -> **"Install App"** / **"Add to Home Screen"**.
-3. The app is installed directly with an app icon, standalone fullscreen window, and offline caching.
+### 1. Ready-to-Install Android APKs (Pre-built)
+The project comes with two purpose-built Android APK flavors pre-compiled in `release-apks/`:
+* **Customer App APK**: [`release-apks/PizzaPizza-Customer.apk`](file:///c:/Users/amdan/Downloads/PizzaPizzaHotNfresh/release-apks/PizzaPizza-Customer.apk)
+  - Package: `com.pizzapizza.customer`
+  - App Name: "Pizza Pizza"
+  - Size: ~4.5 MB
+  - Features: Gen-Z dark neon UI, pizza customizer, WhatsApp & COD checkout, live order tracker, VIP promotional updates.
+* **Admin & KDS App APK**: [`release-apks/PizzaPizza-KDS-Admin.apk`](file:///c:/Users/amdan/Downloads/PizzaPizzaHotNfresh/release-apks/PizzaPizza-KDS-Admin.apk)
+  - Package: `com.pizzapizza.admin`
+  - App Name: "Pizza Pizza KDS Admin"
+  - Size: ~4.5 MB
+  - Features: Boots directly into the Kitchen Display System (KDS), menu availability switches, rate editing, and guest customer database.
 
-### Option B: Native Android APK (Capacitor 7.0)
-The repository contains the ready native Android project in the `android/` directory.
+### 2. How to Sideload & Install APK on Android:
+1. Copy `PizzaPizza-Customer.apk` or `PizzaPizza-KDS-Admin.apk` to your Android phone or kitchen tablet via USB, Google Drive, or WhatsApp.
+2. Tap the file in your Files / Downloads app.
+3. Allow "Install from unknown sources" if prompted, then tap **Install**.
 
-To build the APK:
+### 3. Rebuilding APKs via CLI:
 ```bash
-# 1. Build the web app
+# Rebuild web bundle and sync to Android
 npm run build
-
-# 2. Sync web assets to Android project
 npx cap sync
 
-# 3. Open Android Studio
-npx cap open android
-```
-In Android Studio:
-* Click **Build > Build Bundle(s) / APK(s) > Build APK(s)**.
-* Output file: `android/app/build/outputs/apk/debug/app-debug.apk`.
-
-Or build directly via CLI:
-```bash
+# Build both flavors in one command
 cd android
-./gradlew assembleDebug
+.\gradlew assembleDebug
+
+# Or build individually:
+.\gradlew assembleCustomerDebug   # Builds Customer APK
+.\gradlew assembleAdminDebug      # Builds KDS Admin APK
 ```
+Output APKs:
+* `android/app/build/outputs/apk/customer/debug/app-customer-debug.apk`
+* `android/app/build/outputs/apk/admin/debug/app-admin-debug.apk`
+
+### 4. Progressive Web App (Instant Zero-Install):
+1. Open the website on Chrome (Android) or Safari (iOS).
+2. Tap the **"Get App"** button in the header or tap browser menu (⋮) -> **"Install App"** / **"Add to Home Screen"**.
 
 ---
 

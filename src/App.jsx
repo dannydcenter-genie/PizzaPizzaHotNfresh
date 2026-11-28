@@ -27,7 +27,26 @@ const MainContent = () => {
   const [placedOrder, setPlacedOrder] = useState(null);
   
   const { applyCoupon, setIsCartOpen } = useCart();
-  const { menuItems, isAdminLoggedIn, isAdminModalOpen, setIsAdminModalOpen } = useStore();
+  const { menuItems, isAdminLoggedIn, setIsAdminLoggedIn, isAdminModalOpen, setIsAdminModalOpen } = useStore();
+
+  // Auto-detect Admin / KDS App Mode
+  useEffect(() => {
+    const checkAdminMode = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const isCookieAdmin = typeof document !== 'undefined' && document.cookie.includes('pizza_app_mode=admin');
+      const isParamAdmin = urlParams.get('mode') === 'admin' || urlParams.get('app') === 'admin';
+      const isGlobalAdmin = typeof window !== 'undefined' && window.__PIZZA_APP_MODE__ === 'admin';
+
+      if (isCookieAdmin || isParamAdmin || isGlobalAdmin) {
+        setIsAdminLoggedIn(true);
+        setIsAdminModalOpen(true);
+      }
+    };
+
+    checkAdminMode();
+    window.addEventListener('pizza-mode-change', checkAdminMode);
+    return () => window.removeEventListener('pizza-mode-change', checkAdminMode);
+  }, [setIsAdminLoggedIn, setIsAdminModalOpen]);
 
   // Filtered menu items based on category and search query
   const filteredItems = useMemo(() => {
