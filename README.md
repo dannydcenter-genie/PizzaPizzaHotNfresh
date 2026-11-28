@@ -56,23 +56,25 @@
 
 ## 📱 Mobile App (PWA) & Native Android APKs
 
-### 1. Ready-to-Install Android APKs (Pre-built)
-The project comes with two purpose-built Android APK flavors pre-compiled in `release-apks/`:
-* **Customer App APK**: [`release-apks/PizzaPizza-Customer.apk`](file:///c:/Users/amdan/Downloads/PizzaPizzaHotNfresh/release-apks/PizzaPizza-Customer.apk)
-  - Package: `com.pizzapizza.customer`
-  - App Name: "Pizza Pizza"
-  - Size: ~4.5 MB
+### 1. Ready-to-Install Android APKs (Pre-built & Hosted)
+Official, release-signed APKs with direct high-speed download links:
+
+* **🍕 Customer App APK** (10 MB):
+  - **[Direct GitHub Release Download](https://github.com/dannydcenter-genie/PizzaPizzaHotNfresh/releases/download/v1.0.0/PizzaPizza-Customer.apk)**
+  - Local Path: [`release-apks/PizzaPizza-Customer.apk`](file:///c:/Users/amdan/Downloads/PizzaPizzaHotNfresh/release-apks/PizzaPizza-Customer.apk)
+  - Package: `com.pizzapizza.customer` • Version 1.0 (Release)
   - Features: Gen-Z dark neon UI, pizza customizer, WhatsApp & COD checkout, live order tracker, VIP promotional updates.
-* **Admin & KDS App APK**: [`release-apks/PizzaPizza-KDS-Admin.apk`](file:///c:/Users/amdan/Downloads/PizzaPizzaHotNfresh/release-apks/PizzaPizza-KDS-Admin.apk)
-  - Package: `com.pizzapizza.admin`
-  - App Name: "Pizza Pizza KDS Admin"
-  - Size: ~4.5 MB
+* **👨‍🍳 Admin & KDS App APK** (10 MB):
+  - **[Direct GitHub Release Download](https://github.com/dannydcenter-genie/PizzaPizzaHotNfresh/releases/download/v1.0.0/PizzaPizza-KDS-Admin.apk)**
+  - Local Path: [`release-apks/PizzaPizza-KDS-Admin.apk`](file:///c:/Users/amdan/Downloads/PizzaPizzaHotNfresh/release-apks/PizzaPizza-KDS-Admin.apk)
+  - Package: `com.pizzapizza.admin` • Version 1.0 (Release)
   - Features: Boots directly into the Kitchen Display System (KDS), menu availability switches, rate editing, and guest customer database.
 
 ### 2. How to Sideload & Install APK on Android:
-1. Copy `PizzaPizza-Customer.apk` or `PizzaPizza-KDS-Admin.apk` to your Android phone or kitchen tablet via USB, Google Drive, or WhatsApp.
-2. Tap the file in your Files / Downloads app.
-3. Allow "Install from unknown sources" if prompted, then tap **Install**.
+1. Tap the direct release download link above in Chrome or your phone browser.
+2. Wait for download to complete (~10 MB).
+3. Open your phone's native **Files** or **Downloads** app and tap the `.apk`.
+4. Allow "Install unknown apps" from this source if prompted, then tap **Install**.
 
 ### 3. Rebuilding APKs via CLI:
 ```bash
