@@ -134,7 +134,7 @@ export const ApkModal = ({ isOpen, onClose }) => {
                   <Download className="w-3.5 h-3.5" />
                   <span>Download APK</span>
                 </span>
-                <span className="text-gray-400 text-[10px]">~3.6 MB</span>
+                <span className="text-gray-400 text-[10px]">~10.1 MB</span>
               </a>
             </div>
 
@@ -159,7 +159,7 @@ export const ApkModal = ({ isOpen, onClose }) => {
                   <Download className="w-3.5 h-3.5" />
                   <span>Download APK</span>
                 </span>
-                <span className="text-gray-400 text-[10px]">~3.6 MB</span>
+                <span className="text-gray-400 text-[10px]">~10.1 MB</span>
               </a>
             </div>
           </div>

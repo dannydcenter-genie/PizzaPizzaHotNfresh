@@ -5,7 +5,7 @@ import {
   Volume2, VolumeX, CheckCircle2, Clock, AlertCircle,
   Phone, MapPin, Download, RefreshCw, Sparkles, Filter,
   MessageCircle, Printer, ArrowRight, ShieldCheck, Flame, ExternalLink,
-  Smartphone, Copy, Check, HelpCircle
+  Smartphone, Copy, Check, HelpCircle, FileText, QrCode
 } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { MENU_CATEGORIES } from '../../data/menuData';
@@ -967,12 +967,12 @@ export const AdminPortal = ({ isOpen, onClose }) => {
                   Got "There was a problem parsing the package"? Here is how to install smoothly:
                 </h4>
                 <p className="text-gray-300 leading-relaxed">
-                  This happens if the file was opened before the 3.6 MB download finished, or opened inside WhatsApp's built-in chat viewer instead of the Android Package Installer.
+                  This happens if the file was opened before the 10.1 MB download finished, or opened inside WhatsApp's built-in chat viewer instead of the Android Package Installer.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-2 pt-1 text-[11px] text-gray-300">
                   <div className="p-2.5 rounded-xl bg-black/40 border border-white/10">
                     <strong className="text-cheese-neon block mb-0.5">1. Complete Download</strong>
-                    Wait until the notification says "Download complete" (exact size ~3.6 MB).
+                    Wait until the notification says "Download complete" (exact size ~10.1 MB).
                   </div>
                   <div className="p-2.5 rounded-xl bg-black/40 border border-white/10">
                     <strong className="text-cheese-neon block mb-0.5">2. Open from "Files" App</strong>
@@ -996,7 +996,7 @@ export const AdminPortal = ({ isOpen, onClose }) => {
                     <span className="text-[11px] font-black uppercase tracking-wider text-cheese-neon bg-cheese-500/20 px-2.5 py-1 rounded-lg border border-cheese-500/30">
                       CUSTOMER APP
                     </span>
-                    <span className="text-xs text-gray-400 font-mono">Size: ~3.6 MB</span>
+                    <span className="text-xs text-gray-400 font-mono">Size: ~10.1 MB</span>
                   </div>
 
                   <div className="flex items-start gap-4">
@@ -1042,7 +1042,7 @@ export const AdminPortal = ({ isOpen, onClose }) => {
                     className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-pizza-red to-cheese-500 hover:from-cheese-500 hover:to-pizza-red text-black font-display font-black text-sm shadow-xl shadow-pizza-red/30 transition-all flex items-center justify-center gap-2 group active:scale-98"
                   >
                     <Download className="w-4 h-4 stroke-[3] group-hover:translate-y-0.5 transition-transform" />
-                    <span>Download Customer APK (~3.6 MB)</span>
+                    <span>Download Customer APK (~10.1 MB)</span>
                   </a>
 
                   <div className="grid grid-cols-2 gap-2 text-xs">
@@ -1085,7 +1085,7 @@ export const AdminPortal = ({ isOpen, onClose }) => {
                     <span className="text-[11px] font-black uppercase tracking-wider text-pizza-red bg-pizza-red/20 px-2.5 py-1 rounded-lg border border-pizza-red/30">
                       ADMIN & KITCHEN KDS APP
                     </span>
-                    <span className="text-xs text-gray-400 font-mono">Size: ~3.6 MB</span>
+                    <span className="text-xs text-gray-400 font-mono">Size: ~10.1 MB</span>
                   </div>
 
                   <div className="flex items-start gap-4">
@@ -1131,7 +1131,7 @@ export const AdminPortal = ({ isOpen, onClose }) => {
                     className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-orange-500 to-pizza-red hover:from-pizza-red hover:to-orange-500 text-white font-display font-black text-sm shadow-xl shadow-pizza-red/30 transition-all flex items-center justify-center gap-2 group active:scale-98"
                   >
                     <Download className="w-4 h-4 stroke-[3] group-hover:translate-y-0.5 transition-transform" />
-                    <span>Download Admin KDS APK (~3.6 MB)</span>
+                    <span>Download Admin KDS APK (~10.1 MB)</span>
                   </a>
 
                   <div className="grid grid-cols-2 gap-2 text-xs">
@@ -1167,6 +1167,83 @@ export const AdminPortal = ({ isOpen, onClose }) => {
                 </div>
               </div>
 
+            </div>
+
+            {/* ============================================================== */}
+            {/* SECTION: PRINTABLE TABLE TENT CARD & QR CODE (PDF)             */}
+            {/* ============================================================== */}
+            <div className="glass-card p-6 rounded-3xl border border-cheese-500/40 bg-gradient-to-br from-[#161B29] via-[#111420] to-[#0D0F18] space-y-5">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-black uppercase tracking-wider text-cheese-neon bg-cheese-500/20 px-2.5 py-0.5 rounded-md border border-cheese-500/30">
+                      IN-STORE MARKETING
+                    </span>
+                    <span className="text-xs text-fresh-green font-bold">Print-Ready PDF Included</span>
+                  </div>
+                  <h4 className="font-display font-black text-xl text-white flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-pizza-red" />
+                    <span>Dining Table Tent Card & In-Store QR Code (A4 PDF)</span>
+                  </h4>
+                  <p className="text-xs text-gray-300 leading-relaxed max-w-2xl">
+                    High-resolution, professionally formatted A4 table tent card designed for PIZZA PIZZA. Includes the official Customer App QR code, 100% Pure Veg badge, Google 4.9 rating, promotional discounts, and store address.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2 shrink-0">
+                  {/* Download PDF Button */}
+                  <a
+                    href="/downloads/PizzaPizza-CustomerApp-TentCard.pdf"
+                    download="PizzaPizza-CustomerApp-TentCard.pdf"
+                    className="py-3 px-4 rounded-xl bg-gradient-to-r from-pizza-red to-cheese-500 hover:from-cheese-500 hover:to-pizza-red text-black font-display font-black text-xs shadow-lg shadow-pizza-red/20 flex items-center gap-2 transition-all active:scale-98"
+                  >
+                    <Download className="w-4 h-4 stroke-[3]" />
+                    <span>Download Tent Card PDF (~496 KB)</span>
+                  </a>
+
+                  {/* Print / Preview Button */}
+                  <button
+                    onClick={() => window.open('/downloads/PizzaPizza-CustomerApp-TentCard.pdf', '_blank')}
+                    className="py-3 px-3.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs border border-white/15 flex items-center gap-1.5 transition-colors"
+                  >
+                    <Printer className="w-4 h-4 text-cheese-neon" />
+                    <span>Print / Preview</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Tent Card Preview Graphic & Guide */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                <div className="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-2">
+                  <div className="flex items-center gap-2 text-white font-bold text-xs">
+                    <QrCode className="w-4 h-4 text-cheese-neon" />
+                    <span>Instant Camera Scanning</span>
+                  </div>
+                  <p className="text-[11px] text-gray-400 leading-relaxed">
+                    Dine-in customers and takeaway visitors simply point their phone camera at the QR code to open and download the official ordering app with 0 friction.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-2">
+                  <div className="flex items-center gap-2 text-white font-bold text-xs">
+                    <Sparkles className="w-4 h-4 text-fresh-green" />
+                    <span>Pre-loaded Offers on Card</span>
+                  </div>
+                  <p className="text-[11px] text-gray-400 leading-relaxed">
+                    Highlights the <strong>HOTFRESH50</strong> (Rs.50 OFF) coupon, Free Home Delivery on Rs.500+, and verified WhatsApp hotline to drive repeat orders.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-2">
+                  <div className="flex items-center gap-2 text-white font-bold text-xs">
+                    <Printer className="w-4 h-4 text-pizza-red" />
+                    <span>Easy Table Display Setup</span>
+                  </div>
+                  <p className="text-[11px] text-gray-400 leading-relaxed">
+                    Print on standard A4 cardstock paper (250-300 GSM recommended) and fold in half along the printed dashed center line. Stands independently on tables.
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/* Quick Setup for Kitchen Tablets */}
