@@ -30,12 +30,16 @@ android {
             applicationId "com.pizzapizza.customer"
             resValue "string", "app_name", "Pizza Pizza"
             resValue "string", "title_activity_main", "Pizza Pizza"
+            resValue "string", "package_name", "com.pizzapizza.customer"
+            resValue "string", "custom_url_scheme", "com.pizzapizza.customer"
         }
         admin {
             dimension "mode"
             applicationId "com.pizzapizza.admin"
             resValue "string", "app_name", "Pizza Pizza KDS Admin"
             resValue "string", "title_activity_main", "Pizza Pizza KDS Admin"
+            resValue "string", "package_name", "com.pizzapizza.admin"
+            resValue "string", "custom_url_scheme", "com.pizzapizza.admin"
         }
     }
 

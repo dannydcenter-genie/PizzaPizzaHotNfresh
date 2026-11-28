@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { CartProvider, useCart } from './context/CartContext';
 import { StoreProvider, useStore } from './context/StoreContext';
 import { Header } from './components/Header';
@@ -32,14 +32,18 @@ const MainContent = () => {
   // Auto-detect Admin / KDS App Mode
   useEffect(() => {
     const checkAdminMode = () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const isCookieAdmin = typeof document !== 'undefined' && document.cookie.includes('pizza_app_mode=admin');
-      const isParamAdmin = urlParams.get('mode') === 'admin' || urlParams.get('app') === 'admin';
-      const isGlobalAdmin = typeof window !== 'undefined' && window.__PIZZA_APP_MODE__ === 'admin';
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const isCookieAdmin = typeof document !== 'undefined' && document.cookie.includes('pizza_app_mode=admin');
+        const isParamAdmin = urlParams.get('mode') === 'admin' || urlParams.get('app') === 'admin';
+        const isGlobalAdmin = typeof window !== 'undefined' && window.__PIZZA_APP_MODE__ === 'admin';
 
-      if (isCookieAdmin || isParamAdmin || isGlobalAdmin) {
-        setIsAdminLoggedIn(true);
-        setIsAdminModalOpen(true);
+        if (isCookieAdmin || isParamAdmin || isGlobalAdmin) {
+          setIsAdminLoggedIn(true);
+          setIsAdminModalOpen(true);
+        }
+      } catch (e) {
+        console.error('Error auto-detecting admin mode:', e);
       }
     };
 
